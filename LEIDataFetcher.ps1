@@ -10,11 +10,10 @@ foreach ($row in $csv)
     # get from gleif
     Start-Sleep -Seconds 2
     $request = -join ($uri, $row.LegalEntityCode.ToString());
-    $response = Invoke-WebRequest -Uri $request
-    $json = $response.Content | ConvertFrom-Json    
-
+    $response = Invoke-RestMethod -Uri $request 
+    
     # get the name from the response
-
+    $gleifName = $response.data[0].attributes.entity.legalName.name
 
     # check if it's different
     if ($gleifName -ne $row.LegalEntityName)
